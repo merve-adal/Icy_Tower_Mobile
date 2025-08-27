@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class KarakterHareket : MonoBehaviour
 {
-    public float hareketHizi = 5f;     // Sağ-sol hareket hızı
-    public float ziplamaGucu = 5f;     // Zıplama yüksekliği
-    private float yatayHareket;        // Input (-1,0,1)
+    public float hareketHizi = 5f;
+    public float ziplamaGucu = 5f;
+    private float yatayHareket;
 
-    private bool yerdeMi;              // Karakter zeminde mi?
-
+    private bool yerdeMi;
     Rigidbody rb;
     Animator animator;
 
@@ -21,25 +20,16 @@ public class KarakterHareket : MonoBehaviour
 
     void Update()
     {
-        // Klavyeden X eksenindeki hareketi al
         yatayHareket = Input.GetAxis("Horizontal");
-
-        // Rigidbody hızını ayarla
         rb.velocity = new Vector3(yatayHareket * hareketHizi, rb.velocity.y, rb.velocity.z);
 
-        // Karakterin sağa/sola bakmasını sağla
         if (yatayHareket > 0)
             transform.rotation = Quaternion.Euler(0, 90, 0);
         else if (yatayHareket < 0)
             transform.rotation = Quaternion.Euler(0, -90, 0);
 
-        // Yürüme animasyonu için kontrol
-        if (Mathf.Abs(yatayHareket) > 0f) // sağ veya sol tuşuna basılıysa
-            animator.SetBool("Yurume", true);
-        else
-            animator.SetBool("Yurume", false);
+        animator.SetBool("Yurume", Mathf.Abs(yatayHareket) > 0f);
 
-        // Space ile zıplama
         if (Input.GetKeyDown(KeyCode.Space) && yerdeMi)
         {
             rb.velocity = new Vector3(rb.velocity.x, ziplamaGucu, rb.velocity.z);
@@ -48,7 +38,6 @@ public class KarakterHareket : MonoBehaviour
         }
     }
 
-    // Zemin kontrolü
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Zemin"))

@@ -16,45 +16,56 @@ public class ZeminGenerator : MonoBehaviour
     public float minimumXMesafe = 1f;
 
     [Header("Karakter Zıplama Ayarı")]
-    public float karakterZiplamaGucu = 5f; // Karakter zıplama gücü
+    public Transform karakter;
+    public float karakterZiplamaGucu = 5f;
     public float yercekimi = 9.81f;
 
     void Start()
     {
+        if (karakter == null)
+        {
+            karakter = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         // Başlangıç platformu
-        Vector3 baslangicPozisyon = new Vector3(1.76999998f, -2.29999995f, 0f);
-        Vector3 spawnKonumu = new Vector3(baslangicPozisyon.x, baslangicPozisyon.y + zemin.localScale.y / 2f, baslangicPozisyon.z);
+        Vector3 baslangicPozisyon = new Vector3(1.77f, -2.3f, 0f);
+        Vector3 spawnKonumu = new Vector3(
+            baslangicPozisyon.x,
+            baslangicPozisyon.y + zemin.localScale.y / 2f,
+            baslangicPozisyon.z
+        );
 
         float sonX = spawnKonumu.x;
 
         for (int i = 0; i < zeminSayisi; i++)
         {
-            // Y ekseninde mesafe: karakterin zıplama yüksekliği ile uyumlu
             float maxY = Mathf.Min(maksimumY, karakterZiplamaGucu * 0.9f);
             float minY = Mathf.Max(minimumY, karakterZiplamaGucu * 0.5f);
             spawnKonumu.y += Random.Range(minY, maxY);
 
-            // X eksenini belirle, üst üste gelmemesi için son platforma göre mesafe
             float yeniX;
             int deneme = 0;
             do
             {
-                // Karakterin ulaşabileceği mesafede sağ-sol rastgele
-                float maxXMesafe = karakterZiplamaGucu; // 1 saniyede yatay mesafe tahmini
+                float maxXMesafe = karakterZiplamaGucu;
                 yeniX = sonX + Random.Range(-maxXMesafe, maxXMesafe);
-
-                // Zemin genişliği sınırları
                 yeniX = Mathf.Clamp(yeniX, -zeminGenislik, zeminGenislik);
-
                 deneme++;
-                if (deneme > 20) break; // sonsuz döngü engeli
-            } while (Mathf.Abs(yeniX - sonX) < minimumXMesafe); // üst üste binmesin
+                if (deneme > 20) break;
+            } while (Mathf.Abs(yeniX - sonX) < minimumXMesafe);
 
             spawnKonumu.x = yeniX;
             sonX = yeniX;
 
-            // Platformu oluştur
-            Instantiate(zemin.gameObject, spawnKonumu, Quaternion.identity);
+            GameObject yeniZemin = Instantiate(zemin.gameObject, spawnKonumu, Quaternion.identity);
+
+            Collider collider = yeniZemin.GetComponent<Collider>();
+            if (collider == null)
+            {
+                collider = yeniZemin.AddComponent<BoxCollider>();
+            }
+
+            yeniZemin.AddComponent<OneWayPlatform>();
         }
     }
 }
