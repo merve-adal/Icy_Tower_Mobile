@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// UnityEngine.Random ile System.Random çakışmasını önlemek için alias
 using Random = UnityEngine.Random;
 
 public class ZeminGenerator : MonoBehaviour
 {
     [Header("Platform Ayarları")]
-    public Transform zemin;           // Sahnedeki ilk zemin platformu
+    public Transform zemin;
     public int zeminSayisi = 20;
     public float zeminGenislik = 3f;
     public float minimumY = 2f;
@@ -20,11 +19,35 @@ public class ZeminGenerator : MonoBehaviour
     public float karakterZiplamaGucu = 5f;
     public float yercekimi = 9.81f;
 
+    [Header("Duvar Referansları")]
+    public Transform solDuvar;
+    public Transform sagDuvar;
+
+    private float solSinir;
+    private float sagSinir;
+
     void Start()
     {
         if (karakter == null)
-        {
             karakter = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // Duvarların sınırlarını hesapla (BoxCollider varsa)
+        if (solDuvar != null && sagDuvar != null)
+        {
+            BoxCollider solCol = solDuvar.GetComponent<BoxCollider>();
+            BoxCollider sagCol = sagDuvar.GetComponent<BoxCollider>();
+
+            if (solCol != null && sagCol != null)
+            {
+                solSinir = solCol.bounds.max.x; // Sol duvarın iç yüzeyi
+                sagSinir = sagCol.bounds.min.x; // Sağ duvarın iç yüzeyi
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("Duvarlarda BoxCollider yok, varsayılan genişlik kullanılacak!");
+                solSinir = -zeminGenislik;
+                sagSinir = zeminGenislik;
+            }
         }
 
         // Başlangıç platformu
@@ -49,7 +72,10 @@ public class ZeminGenerator : MonoBehaviour
             {
                 float maxXMesafe = karakterZiplamaGucu;
                 yeniX = sonX + Random.Range(-maxXMesafe, maxXMesafe);
-                yeniX = Mathf.Clamp(yeniX, -zeminGenislik, zeminGenislik);
+
+                // Duvarların içinde kalmasını sağla
+                yeniX = Mathf.Clamp(yeniX, solSinir + 1f, sagSinir - 1f);
+
                 deneme++;
                 if (deneme > 20) break;
             } while (Mathf.Abs(yeniX - sonX) < minimumXMesafe);
@@ -61,9 +87,7 @@ public class ZeminGenerator : MonoBehaviour
 
             Collider collider = yeniZemin.GetComponent<Collider>();
             if (collider == null)
-            {
                 collider = yeniZemin.AddComponent<BoxCollider>();
-            }
 
             yeniZemin.AddComponent<OneWayPlatform>();
         }
