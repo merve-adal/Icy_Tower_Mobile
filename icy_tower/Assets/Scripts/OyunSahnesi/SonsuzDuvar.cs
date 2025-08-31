@@ -1,71 +1,111 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class SonsuzDuvar : MonoBehaviour
 {
     [Header("Duvar Ayarlarý")]
-    public GameObject duvarPrefab;              // Üretilecek duvar prefab'i
-    public int baslangicSegmentSayisi = 10;    // Baþlangýçta kaç segment oluþturulacak
-    public float uretilmeAraligi = 20f;         // Kaç saniyede bir yeni segment üretilecek
+    public GameObject duvarPrefab;
+    public int baslangicSegmentSayisi = 30;
+    public float uretilmeAraligi = 2f;
+    public int havuzBoyutu = 100;
 
     [Header("Referanslar")]
-    public Transform[] baslangicDuvarlar;      // Sol ve sað duvarlarýn referansý
+    public Transform[] baslangicDuvarlar;
 
-    private Dictionary<Transform, GameObject> sonDuvarlar = new Dictionary<Transform, GameObject>();
+    private readonly List<GameObject> havuz = new List<GameObject>();
+    private readonly Dictionary<float, float> sonYukseklik = new Dictionary<float, float>();
     private float duvarHeight;
-    private float zamanSayaci = 2f;
+    private float zamanSayaci;
 
     void Start()
     {
-        if (baslangicDuvarlar == null || baslangicDuvarlar.Length == 0 || duvarPrefab == null)
+        if (duvarPrefab == null || baslangicDuvarlar == null || baslangicDuvarlar.Length == 0)
         {
-            UnityEngine.Debug.LogError("BaslangicDuvarlar veya duvarPrefab atanmamis!");
+            Debug.LogError("SonsuzDuvar: duvarPrefab veya baslangicDuvarlar atanmamýþ!");
             enabled = false;
             return;
         }
 
-        duvarHeight = duvarPrefab.GetComponent<Renderer>().bounds.size.y;
-
-        // Baþlangýç segmentlerini oluþtur
-        foreach (var duvar in baslangicDuvarlar)
+        // Havuz oluþtur
+        for (int i = 0; i < havuzBoyutu; i++)
         {
-            GameObject son = duvar.gameObject;
-            sonDuvarlar[duvar] = son;
-
-            for (int i = 1; i <= baslangicSegmentSayisi; i++)
+            GameObject obj = Instantiate(duvarPrefab);
+            if (i == 0)
             {
-                son = EkleYeniDuvar(son.transform);
-                sonDuvarlar[duvar] = son;
+                var r = obj.GetComponentInChildren<Renderer>();
+                if (r == null)
+                {
+                    Debug.LogError("SonsuzDuvar: Prefab'ta Renderer bulunamadý!");
+                    Destroy(obj);
+                    enabled = false;
+                    return;
+                }
+                duvarHeight = r.bounds.size.y;
             }
+            obj.SetActive(false);
+            havuz.Add(obj);
+        }
+
+        // Baþlangýçta kolonlarý doldur
+        foreach (var taban in baslangicDuvarlar)
+        {
+            sonYukseklik[taban.position.x] = taban.position.y;
+            for (int i = 0; i < baslangicSegmentSayisi; i++)
+                UsteYeniParcaGetir(taban.position.x);
         }
     }
 
     void Update()
     {
         zamanSayaci += Time.deltaTime;
-
         if (zamanSayaci >= uretilmeAraligi)
         {
-            foreach (var duvar in baslangicDuvarlar)
-            {
-                GameObject son = sonDuvarlar[duvar];
-                GameObject yeni = EkleYeniDuvar(son.transform);
-                sonDuvarlar[duvar] = yeni;
-            }
+            foreach (var taban in baslangicDuvarlar)
+                UsteYeniParcaGetir(taban.position.x);
+
             zamanSayaci = 0f;
         }
     }
 
-    // Verilen duvarýn üstüne yeni bir segment ekle
-    GameObject EkleYeniDuvar(Transform sonDuvar)
+    void UsteYeniParcaGetir(float xPozisyon)
     {
-        Vector3 pozisyon = new Vector3(
-            sonDuvar.position.x,
-            sonDuvar.position.y + duvarHeight,
-            sonDuvar.position.z
-        );
+        GameObject parca = HavuzdanBosVeyaEnAltiGeriDonustur(xPozisyon);
+        if (parca == null) return;
 
-        GameObject yeniDuvar = Instantiate(duvarPrefab, pozisyon, sonDuvar.rotation);
-        return yeniDuvar;
+        if (!sonYukseklik.ContainsKey(xPozisyon))
+            sonYukseklik[xPozisyon] = 0f;
+
+        float yeniY = sonYukseklik[xPozisyon] + duvarHeight;
+        parca.transform.position = new Vector3(xPozisyon, yeniY, 0f);
+        parca.SetActive(true);
+
+        sonYukseklik[xPozisyon] = yeniY;
+    }
+
+    GameObject HavuzdanBosVeyaEnAltiGeriDonustur(float xPozisyon)
+    {
+        for (int i = 0; i < havuz.Count; i++)
+            if (!havuz[i].activeInHierarchy)
+                return havuz[i];
+
+        GameObject enAlttaki = null;
+        float minY = float.MaxValue;
+
+        for (int i = 0; i < havuz.Count; i++)
+        {
+            var go = havuz[i];
+            if (!go.activeInHierarchy) continue;
+            if (!Mathf.Approximately(go.transform.position.x, xPozisyon)) continue;
+
+            float y = go.transform.position.y;
+            if (y < minY)
+            {
+                minY = y;
+                enAlttaki = go;
+            }
+        }
+
+        return enAlttaki; // sahnede yeni obje eklenmez, havuz sýnýrý korunur
     }
 }
