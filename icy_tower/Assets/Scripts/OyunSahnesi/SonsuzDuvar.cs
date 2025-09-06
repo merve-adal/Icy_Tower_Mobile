@@ -8,10 +8,12 @@ public class SonsuzDuvar : MonoBehaviour
     public GameObject duvarPrefab;
     public int baslangicSegmentSayisi = 30;
     public float uretilmeAraligi = 2f;
-    public int havuzBoyutu = 100;
+    public int havuzBoyutu = 150;
 
     [Header("Referanslar")]
     public Transform[] baslangicDuvarlar;
+    public Transform karakter;                 // Karakteri inspector'dan ata
+    public float temizlemeMesafesi = 20f;      // Kaç birim aþaðýsýnda kalýnca devre dýþý olsun
 
     private readonly List<GameObject> havuz = new List<GameObject>();
     private readonly Dictionary<float, float> sonYukseklik = new Dictionary<float, float>();
@@ -25,6 +27,12 @@ public class SonsuzDuvar : MonoBehaviour
             Debug.LogError("SonsuzDuvar: duvarPrefab veya baslangicDuvarlar atanmamýþ!");
             enabled = false;
             return;
+        }
+
+        if (karakter == null)
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null) karakter = player.transform;
         }
 
         for (int i = 0; i < havuzBoyutu; i++)
@@ -63,6 +71,9 @@ public class SonsuzDuvar : MonoBehaviour
                 UsteYeniParcaGetir(taban.position.x);
             zamanSayaci = 0f;
         }
+
+        // Her karede temizlik kontrolü
+        ZeminleriTemizle();
     }
 
     void UsteYeniParcaGetir(float xPozisyon)
@@ -100,7 +111,21 @@ public class SonsuzDuvar : MonoBehaviour
             }
         }
 
-        // Eðer hiç aktif obje yoksa, yeni ekleme yapma
         return enAlttaki;
+    }
+
+    void ZeminleriTemizle()
+    {
+        if (karakter == null) return;
+
+        float altSinir = karakter.position.y - temizlemeMesafesi;
+
+        foreach (var duvar in havuz)
+        {
+            if (duvar.activeInHierarchy && duvar.transform.position.y < altSinir)
+            {
+                duvar.SetActive(false);
+            }
+        }
     }
 }

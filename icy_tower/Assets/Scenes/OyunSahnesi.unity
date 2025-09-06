@@ -122,10 +122,10 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &230488064 stripped
+--- !u!4 &131621675 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8508974536462064150, guid: 906fe05fb351ce14bb02613de02f9401, type: 3}
-  m_PrefabInstance: {fileID: 2250757252801087184}
+  m_CorrespondingSourceObject: {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+  m_PrefabInstance: {fileID: 5907517007091255838}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &297117375
 GameObject:
@@ -305,6 +305,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &626436258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1156956311870360218, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+  m_PrefabInstance: {fileID: 8948384918659012675}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,10 +579,12 @@ MonoBehaviour:
   duvarPrefab: {fileID: 8263757990062876988}
   baslangicSegmentSayisi: 30
   uretilmeAraligi: 0.5
-  havuzBoyutu: 100
+  havuzBoyutu: 150
   baslangicDuvarlar:
   - {fileID: 7430116877456810408, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
   - {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+  karakter: {fileID: 9006025069270379647}
+  temizlemeMesafesi: 20
 --- !u!114 &976752157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +601,16 @@ MonoBehaviour:
   sekmeGucu: 5
   comboSuresi: 5
   katlanmaCarpani: 0.2
+--- !u!4 &1310852647 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7430116877456810408, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+  m_PrefabInstance: {fileID: 3223668715790546562}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1552765841 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5810915723165991931, guid: 906fe05fb351ce14bb02613de02f9401, type: 3}
+  m_PrefabInstance: {fileID: 2250757252801087184}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1623048900
 GameObject:
   m_ObjectHideFlags: 3
@@ -711,14 +728,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f0008c9f3de0f48804a9ca0fa25b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zemin: {fileID: 230488064}
-  zeminSayisi: 20
-  zeminGenislik: 3
+  zeminPrefab: {fileID: 1552765841}
+  baslangicSegmentSayisi: 30
+  havuzBoyutu: 150
   minimumY: 2
   maksimumY: 4
   minimumXMesafe: 1
   karakter: {fileID: 9006025069270379647}
   karakterZiplamaGucu: 5
+  uretilmeAraligi: 2
+  temizlemeMesafesi: 20
+  solDuvar: {fileID: 1310852647}
+  sagDuvar: {fileID: 131621675}
 --- !u!4 &1920159966
 Transform:
   m_ObjectHideFlags: 0
@@ -3455,8 +3476,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+      propertyPath: comboSuresi
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
       propertyPath: ziplamaGucu
-      value: 10
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+      propertyPath: ayakPozisyon
+      value: 
+      objectReference: {fileID: 626436258}
+    - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+      propertyPath: duvarSekmeYan
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+      propertyPath: duvarSekmeTemel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133680298689702396, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
+      propertyPath: katlanmaCarpani
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4318280075374722023, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
       propertyPath: m_LocalPosition.x
