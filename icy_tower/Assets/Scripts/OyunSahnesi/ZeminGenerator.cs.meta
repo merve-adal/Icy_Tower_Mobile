@@ -3,7 +3,9 @@ guid: 27f0008c9f3de0f48804a9ca0fa25b41
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - zeminPrefab: {fileID: 8508974536462064150, guid: 906fe05fb351ce14bb02613de02f9401, type: 3}
+  - karakter: {fileID: 3700437292821480468, guid: 742f29caf0861b8498796c3b05a8ba25, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

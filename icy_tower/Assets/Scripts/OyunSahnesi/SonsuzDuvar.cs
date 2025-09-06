@@ -27,7 +27,6 @@ public class SonsuzDuvar : MonoBehaviour
             return;
         }
 
-        // Havuz oluþtur
         for (int i = 0; i < havuzBoyutu; i++)
         {
             GameObject obj = Instantiate(duvarPrefab);
@@ -47,7 +46,6 @@ public class SonsuzDuvar : MonoBehaviour
             havuz.Add(obj);
         }
 
-        // Baþlangýçta kolonlarý doldur
         foreach (var taban in baslangicDuvarlar)
         {
             sonYukseklik[taban.position.x] = taban.position.y;
@@ -63,7 +61,6 @@ public class SonsuzDuvar : MonoBehaviour
         {
             foreach (var taban in baslangicDuvarlar)
                 UsteYeniParcaGetir(taban.position.x);
-
             zamanSayaci = 0f;
         }
     }
@@ -72,9 +69,6 @@ public class SonsuzDuvar : MonoBehaviour
     {
         GameObject parca = HavuzdanBosVeyaEnAltiGeriDonustur(xPozisyon);
         if (parca == null) return;
-
-        if (!sonYukseklik.ContainsKey(xPozisyon))
-            sonYukseklik[xPozisyon] = 0f;
 
         float yeniY = sonYukseklik[xPozisyon] + duvarHeight;
         parca.transform.position = new Vector3(xPozisyon, yeniY, 0f);
@@ -106,6 +100,7 @@ public class SonsuzDuvar : MonoBehaviour
             }
         }
 
-        return enAlttaki; // sahnede yeni obje eklenmez, havuz sýnýrý korunur
+        // Eðer hiç aktif obje yoksa, yeni ekleme yapma
+        return enAlttaki;
     }
 }
