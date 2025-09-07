@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KarakterHareket : MonoBehaviour
 {
@@ -15,10 +13,10 @@ public class KarakterHareket : MonoBehaviour
     Animator animator;
 
     [Header("Duvar Sekme Ayarları")]
-    public float duvarSekmeTemel = 3f;
-    public float duvarSekmeYan = 0.5f;
-    public float comboSuresi = 3f;
-    public float katlanmaCarpani = 0.1f;
+    public float duvarSekmeTemel = 3f;     // Duvardan yukarıya zıplama gücü
+    public float duvarSekmeYan = 2f;     // Yanlara itme kuvveti
+    public float comboSuresi = 5f;         // Combo süresi (saniye)
+    public float katlanmaCarpani = 0.1f;   // Her sekmede ekstra çarpan
 
     private float sonDuvarZiplamaZamani = -999f;
     private int comboSayaci = 0;
@@ -28,19 +26,19 @@ public class KarakterHareket : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        // Oyun başında karakterin Y hızını sıfırla
+        // Oyun başında havada süzülme hatasını engelle
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // Başlangıçta yere temas kontrolü
+        // Başlangıçta yere temas var kabul et
         yerdeMi = true;
     }
 
     void Update()
     {
-        // Input okuma
+        // Yatay hareket input
         yatayHareket = Input.GetAxis("Horizontal");
 
-        // Karakter yönünü çevir
+        // Karakter yönü
         if (yatayHareket > 0)
             transform.rotation = Quaternion.Euler(0, 90, 0);
         else if (yatayHareket < 0)
@@ -57,7 +55,7 @@ public class KarakterHareket : MonoBehaviour
             yerdeMi = false;
         }
 
-        // Combo süresi
+        // Combo süresi kontrol
         float kalanSure = comboSuresi - (Time.time - sonDuvarZiplamaZamani);
         if (kalanSure > 0)
         {
@@ -67,7 +65,7 @@ public class KarakterHareket : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Sadece X ekseninde hareket etsin
+        // Sadece X ekseninde hareket et
         rb.velocity = new Vector3(yatayHareket * hareketHizi, rb.velocity.y, 0f);
     }
 
@@ -86,13 +84,16 @@ public class KarakterHareket : MonoBehaviour
         // Duvar ile temas
         if (collision.gameObject.CompareTag("Duvar"))
         {
+            // Combo süresine göre sayaç
             if (Time.time - sonDuvarZiplamaZamani <= comboSuresi)
                 comboSayaci++;
             else
                 comboSayaci = 1;
 
+            // Katlanarak artan sekme yüksekliği
             float sekmeYukseklik = duvarSekmeTemel * Mathf.Pow(1 + katlanmaCarpani, comboSayaci - 1);
 
+            // Çarpma yönü
             Vector3 carpmaNormal = collision.contacts[0].normal;
             Vector3 sekmeYon = new Vector3(
                 carpmaNormal.x * duvarSekmeYan,
@@ -100,7 +101,10 @@ public class KarakterHareket : MonoBehaviour
                 0f
             );
 
+            // Velocity ata
             rb.velocity = sekmeYon;
+
+            // Combo süresini güncelle
             sonDuvarZiplamaZamani = Time.time;
 
             UnityEngine.Debug.Log("Duvara Sekme! Combo: " + comboSayaci + " | Sekme Yüksekliği: " + sekmeYukseklik.ToString("F2"));

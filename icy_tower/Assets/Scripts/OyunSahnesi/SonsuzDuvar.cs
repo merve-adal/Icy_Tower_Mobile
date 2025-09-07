@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class SonsuzDuvar : MonoBehaviour
 {
     [Header("Duvar Ayarlarý")]
     public GameObject duvarPrefab;
     public int baslangicSegmentSayisi = 30;
-    public float uretilmeAraligi = 2f;
+    public float uretilmeAraligi = 0.5f;
     public int havuzBoyutu = 150;
 
     [Header("Referanslar")]
     public Transform[] baslangicDuvarlar;
-    public Transform karakter;                 // Karakteri inspector'dan ata
-    public float temizlemeMesafesi = 20f;      // Kaç birim aþaðýsýnda kalýnca devre dýþý olsun
+    public Transform karakter;                 // Player inspector’dan atanmalý
+    public float temizlemeMesafesi = 20f;      // Kaç birim aþaðýsýnda kalýnca devre dýþý olacak
 
     private readonly List<GameObject> havuz = new List<GameObject>();
     private readonly Dictionary<float, float> sonYukseklik = new Dictionary<float, float>();
@@ -24,7 +23,7 @@ public class SonsuzDuvar : MonoBehaviour
     {
         if (duvarPrefab == null || baslangicDuvarlar == null || baslangicDuvarlar.Length == 0)
         {
-            Debug.LogError("SonsuzDuvar: duvarPrefab veya baslangicDuvarlar atanmamýþ!");
+            UnityEngine.Debug.LogError("SonsuzDuvar: duvarPrefab veya baslangicDuvarlar atanmamýþ!");
             enabled = false;
             return;
         }
@@ -43,7 +42,7 @@ public class SonsuzDuvar : MonoBehaviour
                 var r = obj.GetComponentInChildren<Renderer>();
                 if (r == null)
                 {
-                    Debug.LogError("SonsuzDuvar: Prefab'ta Renderer bulunamadý!");
+                    UnityEngine.Debug.LogError("SonsuzDuvar: Prefab'ta Renderer bulunamadý!");
                     Destroy(obj);
                     enabled = false;
                     return;
@@ -72,7 +71,7 @@ public class SonsuzDuvar : MonoBehaviour
             zamanSayaci = 0f;
         }
 
-        // Her karede temizlik kontrolü
+        // Temizlik
         ZeminleriTemizle();
     }
 
