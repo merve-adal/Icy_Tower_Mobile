@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class KarakterHareket : MonoBehaviour
 {
     [Header("Hareket Ayarları")]
@@ -17,10 +18,13 @@ public class KarakterHareket : MonoBehaviour
     public float kontrolYaricapi = 0.2f;
     public LayerMask zeminKatmani;
 
+    private DuvarZiplama duvarZiplama;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        duvarZiplama = GetComponent<DuvarZiplama>();
 
         rb.constraints = RigidbodyConstraints.FreezePositionZ |
                          RigidbodyConstraints.FreezeRotationX |
@@ -52,6 +56,7 @@ public class KarakterHareket : MonoBehaviour
         else if (yerdeMi)
         {
             animator.SetBool("Ziplama", false);
+            duvarZiplama.ZemineDegdi(); // Combo sıfırla
         }
     }
 

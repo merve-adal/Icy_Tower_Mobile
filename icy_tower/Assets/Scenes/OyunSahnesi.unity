@@ -127,6 +127,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
   m_PrefabInstance: {fileID: 5907517007091255838}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &295934977 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8952569156473242207, guid: 069b7bf8a92404b4d8cb51d7330b06df, type: 3}
+  m_PrefabInstance: {fileID: 2621240027327993918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &297117375
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,14 +577,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duvarPrefab: {fileID: 8263757990062876988}
-  baslangicSegmentSayisi: 30
-  uretilmeAraligi: 2
-  havuzBoyutu: 150
   baslangicDuvarlar:
   - {fileID: 7430116877456810408, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
   - {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
-  karakter: {fileID: 5170854155089699748}
   temizlemeMesafesi: 30
+  karakter: {fileID: 5170854155089699748}
 --- !u!54 &976752158
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1538,7 +1540,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8952569156473242207, guid: 069b7bf8a92404b4d8cb51d7330b06df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5170854155089699753}
   m_SourcePrefab: {fileID: 100100000, guid: 069b7bf8a92404b4d8cb51d7330b06df, type: 3}
 --- !u!4 &2689006589585512270
 Transform:
@@ -1647,65 +1652,133 @@ PrefabInstance:
       propertyPath: m_Name
       value: DUVAR
       objectReference: {fileID: 0}
+    - target: {fileID: 66025012582659052, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 826231232594884117, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 826231232594884117, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393507294928282066, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1393507294928282066, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 2032380337515324623, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032380337515324623, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931218704937722884, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2931218704937722884, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 3180095255537900873, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180095255537900873, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445590962909027625, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3445590962909027625, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 3823570694445667098, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3823570694445667098, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826517841885941868, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3826517841885941868, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 4099928872171425822, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099928872171425822, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187604216360381507, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4187604216360381507, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 5219545915622121317, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219545915622121317, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441053975919462138, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5441053975919462138, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 5838028726600383045, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5838028726600383045, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138846238771911031, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6138846238771911031, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 7056475179818056232, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7056475179818056232, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385239325781331376, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7385239325781331376, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
@@ -1752,8 +1825,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8515152053902828753, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515152053902828753, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650416111357963046, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8650416111357963046, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
       propertyPath: m_TagString
@@ -2364,6 +2445,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3344889951193282603, guid: 069b7bf8a92404b4d8cb51d7330b06df, type: 3}
   m_PrefabInstance: {fileID: 2621240027327993918}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5170854155089699753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295934977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31fcfdda5167f464fa42ab9f80fef15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temelSekmeYukseklik: 8
+  yataySekme: 2
+  comboSuresi: 3
+  katlanmaCarpani: 0.2
 --- !u!1 &5239632381931263530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,36 +2694,72 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 644774055604073446, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 644774055604073446, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1275925655808390619, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1275925655808390619, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 1504500816500347325, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504500816500347325, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728901152848923362, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1728901152848923362, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 1949535524492684238, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949535524492684238, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840069738620190837, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2840069738620190837, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 3536407650926363204, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536407650926363204, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 4313527470728273024, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4313527470728273024, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361256700844682477, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4361256700844682477, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
@@ -2635,6 +2768,10 @@ PrefabInstance:
     - target: {fileID: 4685774980703698341, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_Name
       value: DUVAR (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685774980703698341, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2677,36 +2814,72 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6190945908893720708, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190945908893720708, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938749201692544863, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6938749201692544863, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 7304963070592996585, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7304963070592996585, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572924850983041185, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7572924850983041185, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 7825963519038318101, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825963519038318101, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016730346988933154, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8016730346988933154, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 8498065370537335174, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498065370537335174, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
       objectReference: {fileID: 0}
     - target: {fileID: 8634067145072671047, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634067145072671047, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString
       value: Duvar
+      objectReference: {fileID: 0}
+    - target: {fileID: 9097271205247603200, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9097271205247603200, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
       propertyPath: m_TagString

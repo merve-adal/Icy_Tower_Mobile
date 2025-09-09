@@ -7,15 +7,17 @@ public class DuvarZiplama : MonoBehaviour
     public float temelSekmeYukseklik = 8f;   // Ýlk zýplamanýn yukarýya gücü
     public float yataySekme = 2f;            // Yanlara itme
     public float comboSuresi = 3f;           // Combo süresi
-    public float katlanmaCarpani = 0.2f;     // Her art arda sekmede artýþ
+    public float katlanmaCarpani = 0.2f;     // Her art arda sekmede artýþ (%20)
 
     private Rigidbody rb;
     private int comboSayaci = 0;
     private float sonZiplamaZamani = -999f;
+    private float oncekiYukseklik;          // Önceki sekmenin dikey yüksekliði
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        oncekiYukseklik = temelSekmeYukseklik;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,12 +25,20 @@ public class DuvarZiplama : MonoBehaviour
         if (collision.gameObject.CompareTag("Duvar"))
         {
             float zamanFarki = Time.time - sonZiplamaZamani;
-            if (zamanFarki <= comboSuresi)
-                comboSayaci++;
-            else
-                comboSayaci = 1;
 
-            float yukseklik = temelSekmeYukseklik * Mathf.Pow(1 + katlanmaCarpani, comboSayaci - 1);
+            if (zamanFarki <= comboSuresi)
+            {
+                comboSayaci++;
+                // Önceki sekmenin üzerine %20 ekle
+                oncekiYukseklik = oncekiYukseklik * (1f + katlanmaCarpani);
+            }
+            else
+            {
+                comboSayaci = 1;
+                oncekiYukseklik = temelSekmeYukseklik; // combo sýfýrlandý
+            }
+
+            float yukseklik = oncekiYukseklik;
 
             Vector3 carpmaNormal = collision.contacts[0].normal;
             float xYon = -Mathf.Sign(carpmaNormal.x) * yataySekme;
@@ -36,12 +46,13 @@ public class DuvarZiplama : MonoBehaviour
             rb.velocity = new Vector3(xYon, yukseklik, 0f);
             sonZiplamaZamani = Time.time;
 
-            Debug.Log($"Duvara Sekme! Combo: {comboSayaci}, Yukseklik: {yukseklik:F2}");
+            UnityEngine.Debug.Log($"Duvara Sekme! Combo: {comboSayaci}, Yukseklik: {yukseklik:F2}");
         }
     }
 
     public void ZemineDegdi()
     {
         comboSayaci = 0;
+        oncekiYukseklik = temelSekmeYukseklik;
     }
 }
