@@ -1,33 +1,52 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class OneWayPlatform : MonoBehaviour
 {
-    private Collider col;
-    public Transform karakter;
+    private Collider platformCollider;
+    private Rigidbody playerRb;
+    private Collider playerCollider;
 
     void Awake()
     {
-        col = GetComponent<Collider>();
-        if (karakter == null)
+        platformCollider = GetComponent<Collider>();
+        platformCollider.isTrigger = true; // Trigger yapýyoruz, fizik motoru ile güvenli
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null) karakter = player.transform;
+            playerRb = player.GetComponent<Rigidbody>();
+            playerCollider = player.GetComponent<Collider>();
         }
     }
 
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        if (col == null || karakter == null) return;
+        if (other != playerCollider) return;
 
-        // Karakter platformun üstündeyse collider açýk kalsýn
-        if (karakter.position.y >= transform.position.y - 0.1f)
+        // Karakter aþaðý düþüyorsa (platformun üstüne iniyor) collider aktif
+        if (playerRb.velocity.y <= 0f && playerCollider.bounds.min.y >= platformCollider.bounds.min.y)
         {
-            col.enabled = true;
+            platformCollider.isTrigger = false; // üstünde durabilir
         }
-        else
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other != playerCollider) return;
+
+        // Karakter düþmüyorsa veya platformun altýnda ? geçebilir
+        if (playerRb.velocity.y > 0f || playerCollider.bounds.max.y < platformCollider.bounds.min.y)
         {
-            // Karakter alttan geçmek isterse collider kapansýn
-            col.enabled = false;
+            platformCollider.isTrigger = true; // geçebilir
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other != playerCollider) return;
+
+        // Platformdan çýktý ? tekrar trigger yap
+        platformCollider.isTrigger = true;
     }
 }

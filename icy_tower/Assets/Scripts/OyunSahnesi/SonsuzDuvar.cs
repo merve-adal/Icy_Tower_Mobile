@@ -6,13 +6,13 @@ public class SonsuzDuvar : MonoBehaviour
     [Header("Duvar Ayarlarý")]
     public GameObject duvarPrefab;
     public int baslangicSegmentSayisi = 30;
-    public float uretilmeAraligi = 0.5f;
+    public float uretilmeAraligi = 2f;
     public int havuzBoyutu = 150;
 
     [Header("Referanslar")]
     public Transform[] baslangicDuvarlar;
-    public Transform karakter;                 // Player inspector’dan atanmalý
-    public float temizlemeMesafesi = 20f;      // Kaç birim aþaðýsýnda kalýnca devre dýþý olacak
+    public Transform karakter;
+    public float temizlemeMesafesi = 20f;
 
     private readonly List<GameObject> havuz = new List<GameObject>();
     private readonly Dictionary<float, float> sonYukseklik = new Dictionary<float, float>();
@@ -21,38 +21,24 @@ public class SonsuzDuvar : MonoBehaviour
 
     void Start()
     {
-        if (duvarPrefab == null || baslangicDuvarlar == null || baslangicDuvarlar.Length == 0)
-        {
-            UnityEngine.Debug.LogError("SonsuzDuvar: duvarPrefab veya baslangicDuvarlar atanmamýþ!");
-            enabled = false;
-            return;
-        }
-
         if (karakter == null)
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) karakter = player.transform;
         }
 
+        // Havuz oluþtur
         for (int i = 0; i < havuzBoyutu; i++)
         {
             GameObject obj = Instantiate(duvarPrefab);
             if (i == 0)
-            {
-                var r = obj.GetComponentInChildren<Renderer>();
-                if (r == null)
-                {
-                    UnityEngine.Debug.LogError("SonsuzDuvar: Prefab'ta Renderer bulunamadý!");
-                    Destroy(obj);
-                    enabled = false;
-                    return;
-                }
-                duvarHeight = r.bounds.size.y;
-            }
+                duvarHeight = obj.GetComponentInChildren<Renderer>().bounds.size.y;
+
             obj.SetActive(false);
             havuz.Add(obj);
         }
 
+        // Baþlangýç segmentleri
         foreach (var taban in baslangicDuvarlar)
         {
             sonYukseklik[taban.position.x] = taban.position.y;
@@ -71,7 +57,6 @@ public class SonsuzDuvar : MonoBehaviour
             zamanSayaci = 0f;
         }
 
-        // Temizlik
         ZeminleriTemizle();
     }
 
@@ -89,16 +74,19 @@ public class SonsuzDuvar : MonoBehaviour
 
     GameObject HavuzdanBosVeyaEnAltiGeriDonustur(float xPozisyon)
     {
-        for (int i = 0; i < havuz.Count; i++)
-            if (!havuz[i].activeInHierarchy)
-                return havuz[i];
+        // Öncelikle boþ (inactive) objeleri al
+        foreach (var go in havuz)
+        {
+            if (!go.activeInHierarchy)
+                return go;
+        }
 
+        // Boþ yoksa en alttaki objeyi geri al
         GameObject enAlttaki = null;
         float minY = float.MaxValue;
 
-        for (int i = 0; i < havuz.Count; i++)
+        foreach (var go in havuz)
         {
-            var go = havuz[i];
             if (!go.activeInHierarchy) continue;
             if (!Mathf.Approximately(go.transform.position.x, xPozisyon)) continue;
 

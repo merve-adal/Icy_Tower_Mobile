@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,7 +13,6 @@ public class ZeminGenerator : MonoBehaviour
 
     [Header("Karakter Zıplama Ayarı")]
     public Transform karakter;
-    public float karakterZiplamaGucu = 5f;
 
     [Header("Sonsuz Üretim Ayarları")]
     public float uretilmeAraligi = 2f;
@@ -34,11 +32,20 @@ public class ZeminGenerator : MonoBehaviour
         if (karakter == null)
             karakter = GameObject.FindGameObjectWithTag("Player").transform;
 
-        // Havuz oluştur
+        // Havuzu oluştur
         for (int i = 0; i < havuzBoyutu; i++)
         {
             GameObject obj = Instantiate(zeminPrefab);
             obj.SetActive(false);
+
+            // OneWayPlatform ekle
+            if (obj.GetComponent<OneWayPlatform>() == null)
+                obj.AddComponent<OneWayPlatform>();
+
+            // Collider ekle
+            if (obj.GetComponent<Collider>() == null)
+                obj.AddComponent<BoxCollider>();
+
             havuz.Add(obj);
         }
 
@@ -46,7 +53,7 @@ public class ZeminGenerator : MonoBehaviour
         sonX = baslangicPozisyon.x;
         sonY = baslangicPozisyon.y;
 
-        // Başlangıç segmentlerini oluştur
+        // Başlangıç segmentleri oluştur
         for (int i = 0; i < baslangicSegmentSayisi; i++)
             YeniZeminOlustur();
     }
@@ -68,12 +75,10 @@ public class ZeminGenerator : MonoBehaviour
         GameObject zemin = HavuzdanAlVeyaEnAltiGetir();
         if (zemin == null) return;
 
-        // Y pozisyonu
-        float maxY = Mathf.Min(maksimumY, karakterZiplamaGucu * 0.9f);
-        float minY = Mathf.Max(minimumY, karakterZiplamaGucu * 0.5f);
-        sonY += Random.Range(minY, maxY);
+        float ortalamaYArtis = (minimumY + maksimumY) / 2f;
+        float rastgeleKayma = Random.Range(-0.5f, 0.5f);
+        sonY += ortalamaYArtis + rastgeleKayma;
 
-        // X pozisyonu duvarlara göre
         float solSinir = solDuvar.position.x + (solDuvar.localScale.x / 2f) + (zeminPrefab.transform.localScale.x / 2f);
         float sagSinir = sagDuvar.position.x - (sagDuvar.localScale.x / 2f) - (zeminPrefab.transform.localScale.x / 2f);
 
@@ -81,31 +86,21 @@ public class ZeminGenerator : MonoBehaviour
 
         zemin.transform.position = new Vector3(sonX, sonY, 0f);
         zemin.SetActive(true);
-
-        // Collider ve OneWayPlatform ekle
-        Collider collider = zemin.GetComponent<Collider>();
-        if (collider == null)
-            collider = zemin.AddComponent<BoxCollider>();
-
-        if (zemin.GetComponent<OneWayPlatform>() == null)
-            zemin.AddComponent<OneWayPlatform>();
     }
 
     GameObject HavuzdanAlVeyaEnAltiGetir()
     {
-        for (int i = 0; i < havuz.Count; i++)
-            if (!havuz[i].activeInHierarchy)
-                return havuz[i];
+        foreach (var go in havuz)
+            if (!go.activeInHierarchy) return go;
 
         GameObject enAlttaki = null;
         float minY = float.MaxValue;
 
-        for (int i = 0; i < havuz.Count; i++)
+        foreach (var go in havuz)
         {
-            var go = havuz[i];
             if (!go.activeInHierarchy) continue;
-
             float y = go.transform.position.y;
+            if (karakter != null && y > karakter.position.y - 2f) continue;
             if (y < minY)
             {
                 minY = y;

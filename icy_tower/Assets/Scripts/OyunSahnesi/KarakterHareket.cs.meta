@@ -3,7 +3,8 @@ guid: 16af83e4dfb74a24391e11af24e8b027
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ayakNoktasi: {fileID: 5526325763807790131, guid: 6cf04972f59e65940a7b1fadef1e1a6f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

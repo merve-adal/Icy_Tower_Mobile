@@ -12,102 +12,65 @@ public class KarakterHareket : MonoBehaviour
     Rigidbody rb;
     Animator animator;
 
-    [Header("Duvar Sekme Ayarları")]
-    public float duvarSekmeTemel = 3f;     // Duvardan yukarıya zıplama gücü
-    public float duvarSekmeYan = 2f;     // Yanlara itme kuvveti
-    public float comboSuresi = 5f;         // Combo süresi (saniye)
-    public float katlanmaCarpani = 0.1f;   // Her sekmede ekstra çarpan
-
-    private float sonDuvarZiplamaZamani = -999f;
-    private int comboSayaci = 0;
+    [Header("Zemin Kontrolü")]
+    public Transform ayakNoktasi;
+    public float kontrolYaricapi = 0.2f;
+    public LayerMask zeminKatmani;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        // Oyun başında havada süzülme hatasını engelle
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.constraints = RigidbodyConstraints.FreezePositionZ |
+                         RigidbodyConstraints.FreezeRotationX |
+                         RigidbodyConstraints.FreezeRotationZ;
 
-        // Başlangıçta yere temas var kabul et
-        yerdeMi = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
     {
-        // Yatay hareket input
         yatayHareket = Input.GetAxis("Horizontal");
 
         // Karakter yönü
-        if (yatayHareket > 0)
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        else if (yatayHareket < 0)
-            transform.rotation = Quaternion.Euler(0, -90, 0);
+        if (yatayHareket > 0) transform.rotation = Quaternion.Euler(0, 90, 0);
+        else if (yatayHareket < 0) transform.rotation = Quaternion.Euler(0, -90, 0);
 
-        // Yürüme animasyonu
         animator.SetBool("Yurume", Mathf.Abs(yatayHareket) > 0f);
 
-        // Normal zıplama
+        // Zemin kontrolü
+        yerdeMi = Physics.CheckSphere(ayakNoktasi.position, kontrolYaricapi, zeminKatmani);
+
+        // Zıplama
         if (Input.GetKeyDown(KeyCode.Space) && yerdeMi)
         {
             rb.velocity = new Vector3(rb.velocity.x, ziplamaGucu, rb.velocity.z);
             animator.SetBool("Ziplama", true);
-            yerdeMi = false;
         }
-
-        // Combo süresi kontrol
-        float kalanSure = comboSuresi - (Time.time - sonDuvarZiplamaZamani);
-        if (kalanSure > 0)
+        else if (yerdeMi)
         {
-            UnityEngine.Debug.Log("Combo: " + comboSayaci + " | Kalan Süre: " + kalanSure.ToString("F2") + " sn");
+            animator.SetBool("Ziplama", false);
         }
     }
 
     void FixedUpdate()
     {
-        // Sadece X ekseninde hareket et
         rb.velocity = new Vector3(yatayHareket * hareketHizi, rb.velocity.y, 0f);
     }
 
-    private void OnCollisionStay(Collision collision)
+    void LateUpdate()
     {
-        // Zemin ile temas
-        if (collision.gameObject.CompareTag("Zemin"))
-        {
-            yerdeMi = true;
-            animator.SetBool("Ziplama", false);
-        }
+        Vector3 pos = transform.position;
+        pos.z = 0f;
+        transform.position = pos;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnDrawGizmosSelected()
     {
-        // Duvar ile temas
-        if (collision.gameObject.CompareTag("Duvar"))
-        {
-            // Combo süresine göre sayaç
-            if (Time.time - sonDuvarZiplamaZamani <= comboSuresi)
-                comboSayaci++;
-            else
-                comboSayaci = 1;
-
-            // Katlanarak artan sekme yüksekliği
-            float sekmeYukseklik = duvarSekmeTemel * Mathf.Pow(1 + katlanmaCarpani, comboSayaci - 1);
-
-            // Çarpma yönü
-            Vector3 carpmaNormal = collision.contacts[0].normal;
-            Vector3 sekmeYon = new Vector3(
-                carpmaNormal.x * duvarSekmeYan,
-                sekmeYukseklik,
-                0f
-            );
-
-            // Velocity ata
-            rb.velocity = sekmeYon;
-
-            // Combo süresini güncelle
-            sonDuvarZiplamaZamani = Time.time;
-
-            UnityEngine.Debug.Log("Duvara Sekme! Combo: " + comboSayaci + " | Sekme Yüksekliği: " + sekmeYukseklik.ToString("F2"));
-        }
+        if (ayakNoktasi == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(ayakNoktasi.position, kontrolYaricapi);
     }
 }
