@@ -40,10 +40,12 @@ public class DuvarZiplama : MonoBehaviour
 
             float yukseklik = oncekiYukseklik;
 
-            Vector3 carpmaNormal = collision.contacts[0].normal;
-            float xYon = -Mathf.Sign(carpmaNormal.x) * yataySekme;
+            // Hangi duvar olduðunu pozisyona bakarak belirle
+            float xYon = (collision.transform.position.x < transform.position.x ? yataySekme : -yataySekme);
 
+            // Sabit sekme ? açýya göre deðiþmiyor
             rb.velocity = new Vector3(xYon, yukseklik, 0f);
+
             sonZiplamaZamani = Time.time;
 
             UnityEngine.Debug.Log($"Duvara Sekme! Combo: {comboSayaci}, Yukseklik: {yukseklik:F2}");

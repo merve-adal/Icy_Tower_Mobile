@@ -609,6 +609,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &1082946157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 598250057643579424, guid: e450edb738201a14aa5cc8e7fc171280, type: 3}
+  m_PrefabInstance: {fileID: 8066903842301990013}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1310852647 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7430116877456810408, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
@@ -732,6 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zeminPrefab: {fileID: 2597571103287009183}
+  ozelZeminPrefab: {fileID: 1082946157}
   baslangicSegmentSayisi: 30
   havuzBoyutu: 150
   minimumY: 2

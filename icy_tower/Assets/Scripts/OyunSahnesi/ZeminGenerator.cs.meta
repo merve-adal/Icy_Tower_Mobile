@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - zeminPrefab: {fileID: 8610921350510924680, guid: 906fe05fb351ce14bb02613de02f9401, type: 3}
+  - ozelZeminPrefab: {fileID: 598250057643579424, guid: e450edb738201a14aa5cc8e7fc171280, type: 3}
   - karakter: {fileID: 3344889951193282603, guid: 069b7bf8a92404b4d8cb51d7330b06df, type: 3}
   - solDuvar: {fileID: 7430116877456810408, guid: da5edc6b31c11d1489515b8b5655a4f2, type: 3}
   - sagDuvar: {fileID: 5371961928055990684, guid: 363fcf7ce8b43674ca0332a78c5915b7, type: 3}
